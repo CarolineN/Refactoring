@@ -2,10 +2,14 @@ package com.refactor;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+
 import javax.swing.*;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import javax.swing.text.MaskFormatter;
+
 import java.util.ArrayList; 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,12 +71,14 @@ JPanel panel2;
 			content.setLayout(new GridLayout(2, 1));
 			content.add(userTypePanel);
 			content.add(continuePanel);
-continueButton.addActionListener(new ActionListener(  ) {
+			continueButton.addActionListener(new ActionListener(  ) {
 				public void actionPerformed(ActionEvent ae) {
 					String user = userType.getSelection().getActionCommand(  );
-					
+					options(user);
+				}
+				public void options(String option){
 					//if user selects NEW CUSTOMER--------------------------------------------------------------------------------------
-					if(user.equals("New Customer"))
+					if(option.equals("New Customer"))
 					{
 						f.dispose();		
 						f1 = new JFrame("Create New Customer");
@@ -134,18 +140,11 @@ continueButton.addActionListener(new ActionListener(  ) {
 									 loop = false;
 								 }
 								}
-								
-								
-								
-								
-							    ArrayList<CustomerAccount> accounts = new ArrayList<CustomerAccount> ();
-										Customer customer = new Customer(PPS, surname, firstName, DOB, CustomerID, password, accounts);
-											
-										customerList.add(customer);
-									
-										JOptionPane.showMessageDialog(f, "CustomerID = " + CustomerID +"\n Password = " + password  ,"Customer created.",  JOptionPane.INFORMATION_MESSAGE);
-										menuStart();
-									f.dispose();
+								ArrayList<CustomerAccount> accounts = new ArrayList<CustomerAccount> ();
+								addCustomers(PPS,surname,firstName,DOB,CustomerID,password,accounts);//this is new
+								JOptionPane.showMessageDialog(f, "CustomerID = " + CustomerID +"\n Password = " + password  ,"Customer created.",  JOptionPane.INFORMATION_MESSAGE);
+								menuStart();
+								f.dispose();
 							}
 						});	
 								}
@@ -157,18 +156,13 @@ continueButton.addActionListener(new ActionListener(  ) {
 									menuStart();
 								}
 							});	
-							
 							panel2.add(add);
 							panel2.add(cancel);
-							
 							content.add(panel, BorderLayout.CENTER);
 							content.add(panel2, BorderLayout.SOUTH);
-					
 							f1.setVisible(true);		
-						
 					}
-
-					if(user.equals("Administrator")	)
+					if(option.equals("Administrator")	)
 					{
 						boolean loop = true, loop2 = true;
 						boolean cont = false;
@@ -207,7 +201,7 @@ continueButton.addActionListener(new ActionListener(  ) {
 					    }
 					}
 
-					if(user.equals("Customer")	)
+					if(option.equals("Customer")	)
 					{
 						boolean loop = true, loop2 = true;
 						boolean cont = false;
@@ -269,15 +263,13 @@ continueButton.addActionListener(new ActionListener(  ) {
 					    		   cont = true;
 					    	   }
 					    }
-					    	
-					    if(cont)
+					      if(cont)
 					    {
 						f.dispose();
 					    	loop = false;
 					    	customer(customer);				    
-					    }				    
+					   }				    
 					}
-					//-----------------------------------------------------------------------------------------------------------------------
 				}
 			});f.setVisible(true);	
 	}
@@ -1580,6 +1572,11 @@ continueButton.addActionListener(new ActionListener(  ) {
 	     });		}		
 	     });
 	}
+	}
+	public void addCustomers(String PPS, String surname, String firstName, String DOB, String customerID, String password, ArrayList<CustomerAccount> accounts){
+		Customer customer = new Customer(PPS, surname, firstName, DOB, customerID, password, accounts);
+		
+		customerList.add(customer);
 	}
 	public static boolean isNumeric(String str)  // a method that tests if a string is numeric
 	{  
