@@ -20,6 +20,16 @@ public class CustomerDepositAccount extends CustomerAccount
         super(number, balance, transactionList);
         this.interestRate = interestRate;
     }
+    public static void addDepositAccount(Customer customer, ArrayList<Customer>customerList){
+    	double balance = 0, interest = 0;
+    	String number = String.valueOf("D" + (customerList.indexOf(customer)+1) * 10 + (customer.getAccounts().size()+1));//this simple algorithm generates the account number
+    	ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
+        	
+    	CustomerDepositAccount deposit = new CustomerDepositAccount(interest, number, balance, transactionList);
+    	
+    	customer.getAccounts().add(deposit);
+    	
+    }
 
     public double getInterestRate()
     {

@@ -16,11 +16,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Menu extends JFrame{
-	private ArrayList<Customer> customerList = new ArrayList<Customer>();
-    private int position = 0;
-	private String password;
-	private Customer customer = null;
-	private CustomerAccount acc = new CustomerAccount();
+	 static ArrayList<Customer> customerList = new ArrayList<Customer>();
+     int position = 0;
+	 String password;
+	 static Customer customer = null;
+	CustomerAccount acc = new CustomerAccount();
 	JFrame f, f1;
 	 JLabel firstNameLabel, surnameLabel, pPPSLabel, dOBLabel;
 	 JTextField firstNameTextField, surnameTextField, pPSTextField, dOBTextField;
@@ -87,7 +87,7 @@ public class Menu extends JFrame{
 
 					if(option.equals("Customer")	)
 					{
-						customer();			    
+						existingCustomer();			    
 					}
 				}
 			});f.setVisible(true);	
@@ -371,13 +371,7 @@ public class Menu extends JFrame{
 						}
 				     });	
 					
-						}
-			    }
-			    }
-			    }
-			    
-			}	
-	     });
+						}}}}}});
 		
 		editCustomerButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
@@ -777,34 +771,18 @@ public class Menu extends JFrame{
 				    if(account.equals("Current Account"))
 				    {
 				    	//create current account
-				    	boolean valid = true;
-				    	double balance = 0;
-				    	String number = String.valueOf("C" + (customerList.indexOf(customer)+1) * 10 + (customer.getAccounts().size()+1));//this simple algorithm generates the account number
-				    	ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
-				    	int randomPIN = (int)(Math.random()*9000)+1000;
-				           String pin = String.valueOf(randomPIN);
-				    
-				           ATMCard atm = new ATMCard(randomPIN, valid);
 				    	
-				    	CustomerCurrentAccount current = new CustomerCurrentAccount(atm, number, balance, transactionList);
-				    	
-				    	customer.getAccounts().add(current);
-				    	JOptionPane.showMessageDialog(f, "Account number = " + number +"\n PIN = " + pin  ,"Account created.",  JOptionPane.INFORMATION_MESSAGE);
-				    	
+				    	CustomerCurrentAccount.addCurrentAccount(customer,customerList);
+				    	//JOptionPane.showMessageDialog(f, "Account number = " + number +"\n PIN = " + pin  ,"Account created.",  JOptionPane.INFORMATION_MESSAGE);
+				    	JOptionPane.showInputDialog(f, "Current Account created.",  JOptionPane.INFORMATION_MESSAGE);
 				    	f.dispose();
 				    	admin();
 				    }
 				    
 				    if(account.equals("Deposit Account"))
 				    {
-				    	double balance = 0, interest = 0;
-				    	String number = String.valueOf("D" + (customerList.indexOf(customer)+1) * 10 + (customer.getAccounts().size()+1));//this simple algorithm generates the account number
-				    	ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
-				        	
-				    	CustomerDepositAccount deposit = new CustomerDepositAccount(interest, number, balance, transactionList);
-				    	
-				    	customer.getAccounts().add(deposit);
-				    	JOptionPane.showMessageDialog(f, "Account number = " + number ,"Account created.",  JOptionPane.INFORMATION_MESSAGE);
+				    	CustomerDepositAccount.addDepositAccount(customer,customerList);
+				    	JOptionPane.showInputDialog(f, "Deposit Account created.",  JOptionPane.INFORMATION_MESSAGE);
 				    	
 				    	f.dispose();
 				    	admin();
@@ -914,7 +892,7 @@ public class Menu extends JFrame{
 	public void customer(Customer e1)
 	{	
 		f = new JFrame("Customer Menu");
-		e1 = e;
+		
 		f.setSize(400, 300);
 		f.setLocation(200, 200);
 		f.addWindowListener(new WindowAdapter() {
@@ -922,7 +900,7 @@ public class Menu extends JFrame{
 		});          
 		f.setVisible(true);
 		
-		if(e.getAccounts().size() == 0)
+		if(e1.getAccounts().size() == 0)
 		{
 			JOptionPane.showMessageDialog(f, "This customer does not have any accounts yet. \n An admin must create an account for this customer \n for them to be able to use customer functionality. " ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
 			f.dispose();				
@@ -943,15 +921,15 @@ public class Menu extends JFrame{
 		buttonPanel.add(continueButton);
 		
 		JComboBox<String> box = new JComboBox<String>();
-	    for (int i =0; i < e.getAccounts().size(); i++)
+	    for (int i =0; i < e1.getAccounts().size(); i++)
 	    {
-	     box.addItem(e.getAccounts().get(i).getNumber());
+	     box.addItem(e1.getAccounts().get(i).getNumber());
 	    }
-		for(int i = 0; i<e.getAccounts().size(); i++)
+		for(int i = 0; i<e1.getAccounts().size(); i++)
 	    {
-	    	if(e.getAccounts().get(i).getNumber() == box.getSelectedItem() )
+	    	if(e1.getAccounts().get(i).getNumber() == box.getSelectedItem() )
 	    	{
-	    		acc = e.getAccounts().get(i);
+	    		acc = e1.getAccounts().get(i);
 	    	}
 	    }
 	    boxPanel.add(box);
@@ -1344,11 +1322,11 @@ public class Menu extends JFrame{
 			f1.setVisible(true);		
 		
 	}
-	public void customer(){
+	public void existingCustomer(){
 		boolean loop = true, loop2 = true;
 		boolean cont = false;
 		boolean found = false;
-		Customer customer = null;
+		
 	    while(loop)
 	    {
 	    Object customerID = JOptionPane.showInputDialog(f, "Enter Customer ID:");
@@ -1394,7 +1372,7 @@ public class Menu extends JFrame{
 			    		
 			    	}
 			    	else if(reply == JOptionPane.NO_OPTION){
-			    		f.dispose();
+			    		//f.dispose();
 			    		loop2 = false;
 			    		menuStart();
 			    	}
@@ -1407,9 +1385,10 @@ public class Menu extends JFrame{
 	    }
 	      if(cont)
 	    {
-		f.dispose();
+		//f.dispose();
+	    	customer(customer);
 	    	loop = false;
-	    	customer(customer);				    
+	    					    
 	   }	
 	}
 	public void adminMenu()
