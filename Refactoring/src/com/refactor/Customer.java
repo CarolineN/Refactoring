@@ -6,6 +6,9 @@ package com.refactor;
 
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class Customer {
 
     String PPS ="";
@@ -115,7 +118,10 @@ public class Customer {
     {
         this.accounts = accounts;
     }
-    
+    public static void deleteCustomer( ArrayList<Customer>customerList,Customer customer, JFrame f){
+    	customerList.remove(customer);
+		JOptionPane.showMessageDialog(f, "Customer Deleted " ,"Success.",  JOptionPane.INFORMATION_MESSAGE);
+    }
 
     public String toString()
     {

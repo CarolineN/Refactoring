@@ -61,8 +61,5 @@ public class CustomerAccount  {
     {
         this.transactionList = transactionList;
     }
-
-
-
 }
 

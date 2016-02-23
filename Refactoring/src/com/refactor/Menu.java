@@ -20,17 +20,17 @@ public class Menu extends JFrame{
      int position = 0;
 	 String password;
 	 static Customer customer = null;
-	CustomerAccount acc = new CustomerAccount();
-	JFrame f, f1;
+	 CustomerAccount acc = new CustomerAccount();
+	 JFrame f, f1;
 	 JLabel firstNameLabel, surnameLabel, pPPSLabel, dOBLabel;
 	 JTextField firstNameTextField, surnameTextField, pPSTextField, dOBTextField;
-		JLabel customerIDLabel, passwordLabel;
-		JTextField customerIDTextField, passwordTextField;
-		Container content;
-		Customer e;
-		JPanel panel2;
-		JButton add;
-		String 	PPS,firstName,surname,DOB,CustomerID;
+	 JLabel customerIDLabel, passwordLabel;
+	 JTextField customerIDTextField, passwordTextField;
+	 Container content;
+	 Customer e;
+	 JPanel panel2;
+	 JButton add;
+	 String PPS,firstName,surname,DOB,CustomerID;
 	
 	public static void main(String[] args)
 	{
@@ -82,7 +82,7 @@ public class Menu extends JFrame{
 					}
 					if(option.equals("Administrator")	)
 					{
-					loginAdministrator();
+						loginAdministrator();
 					}
 
 					if(option.equals("Customer")	)
@@ -154,15 +154,14 @@ public class Menu extends JFrame{
 		content.add(deleteCustomerPanel);
 		content.add(returnPanel);
 		
+		//*************************************************
 		bankChargesButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				boolean loop = true;
 				boolean found = false;
 			if(customerList.isEmpty())
 				{
-					JOptionPane.showMessageDialog(f, "There are no customers yet!"  ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-					f.dispose();
-					admin();
+					emptyList();
 				}else{
 			    while(loop)
 			    {
@@ -214,9 +213,7 @@ public class Menu extends JFrame{
 					content.add(buttonPanel);
 					if(customer.getAccounts().isEmpty())
 						{
-							JOptionPane.showMessageDialog(f, "This customer has no accounts! \n The admin must add acounts to this customer."   ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-							f.dispose();
-							admin();
+							emptyList();
 						}
 						else
 						{
@@ -230,24 +227,12 @@ public class Menu extends JFrame{
 				    }
 						continueButton.addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {
-							String euro = "\u20ac";
-						 	if(acc instanceof CustomerDepositAccount)
-							{
-							JOptionPane.showMessageDialog(f, "25" + euro + " deposit account fee aplied."  ,"",  JOptionPane.INFORMATION_MESSAGE);
-							acc.setBalance(acc.getBalance()-25);
-							JOptionPane.showMessageDialog(f, "New balance = " + acc.getBalance() ,"Success!",  JOptionPane.INFORMATION_MESSAGE);
-							}
-
-							if(acc instanceof CustomerCurrentAccount)
-							{
-							JOptionPane.showMessageDialog(f, "15" + euro + " current account fee aplied."  ,"",  JOptionPane.INFORMATION_MESSAGE);
-							acc.setBalance(acc.getBalance()-25);
-							JOptionPane.showMessageDialog(f, "New balance = " + acc.getBalance() ,"Success!",  JOptionPane.INFORMATION_MESSAGE);
-							}
-						f.dispose();				
-						admin();				
+							BankCharges.bankChargesCalculation(acc,f);// The new class BankCharges handles this bit
+							f.dispose();				
+							admin();				
 						}		
 				     });
+						
 					
 					returnButton.addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {
@@ -255,16 +240,14 @@ public class Menu extends JFrame{
 							menuStart();				
 						}});	
 					}}}}}});
-		
+		//**************************************************************
 		interestButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				boolean loop = true;
 				boolean found = false;
 			if(customerList.isEmpty())
 				{
-					JOptionPane.showMessageDialog(f, "There are no customers yet!"  ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-					f.dispose();
-					admin();
+				emptyList();	
 			}
 				else
 				{
@@ -382,9 +365,7 @@ public class Menu extends JFrame{
 			
 				if(customerList.isEmpty())
 				{
-					JOptionPane.showMessageDialog(f, "There are no customers yet!"  ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-					f.dispose();
-					admin();
+					emptyList();
 					
 				}
 				else
@@ -505,6 +486,8 @@ public class Menu extends JFrame{
 			     });		
 				}}
 	     });
+		//********************************************************************
+		//New class perhaps???????
 		
 		summaryButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
@@ -527,21 +510,7 @@ public class Menu extends JFrame{
 				
 				JScrollPane scrollPane = new JScrollPane(textArea);
 				textPanel.add(scrollPane);
-				
-			for (int a = 0; a < customerList.size(); a++)//For each customer, for each account, it displays each transaction.
-				{
-					for (int b = 0; b < customerList.get(a).getAccounts().size(); b ++ )
-					{
-						acc = customerList.get(a).getAccounts().get(b);
-						for (int c = 0; c < customerList.get(a).getAccounts().get(b).getTransactionList().size(); c++)
-						{
-							
-							textArea.append(acc.getTransactionList().get(c).toString());
-							//Int total = acc.getTransactionList().get(c).getAmount(); //I was going to use this to keep a running total but I couldnt get it  working.
-							
-						}				
-					}				
-				}
+				Summary.displayAll(customerList,acc,textArea);
 				textPanel.add(textArea);
 				content.removeAll();
 				Container content = f.getContentPane();
@@ -564,7 +533,7 @@ public class Menu extends JFrame{
 				if(customerList.isEmpty())
 				{
 					JOptionPane.showMessageDialog(null, "There are currently no customers to display. ");
-					admin();
+					admin();// not quite the same as emptyList()
 				}
 				else
 				{
@@ -639,18 +608,13 @@ public class Menu extends JFrame{
 				first.addActionListener(new ActionListener(  ) {
 					public void actionPerformed(ActionEvent ae) {
 						position = 0;
-						firstNameTextField.setText(customerList.get(0).getFirstName());
-						surnameTextField.setText(customerList.get(0).getSurname());
-						pPSTextField.setText(customerList.get(0).getPPS());
-						dOBTextField.setText(customerList.get(0).getDOB());
-						customerIDTextField.setText(customerList.get(0).getCustomerID());
-						passwordTextField.setText(customerList.get(0).getPassword());				
+						Summary.navigate(customerList, position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);				
 							}		
 					     });
 				
 				previous.addActionListener(new ActionListener(  ) {
 					public void actionPerformed(ActionEvent ae) {
-								
+						
 						if(position < 1)// look at this
 						{
 							//don't do anything
@@ -658,13 +622,7 @@ public class Menu extends JFrame{
 						else
 						{
 							position = position - 1;
-							
-						firstNameTextField.setText(customerList.get(position).getFirstName());
-						surnameTextField.setText(customerList.get(position).getSurname());
-						pPSTextField.setText(customerList.get(position).getPPS());
-						dOBTextField.setText(customerList.get(position).getDOB());
-						customerIDTextField.setText(customerList.get(position).getCustomerID());
-						passwordTextField.setText(customerList.get(position).getPassword());
+							Summary.navigate(customerList, position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);
 						}			
 							}		
 					     });
@@ -680,12 +638,7 @@ public class Menu extends JFrame{
 						{
 							position = position + 1;
 							
-						firstNameTextField.setText(customerList.get(position).getFirstName());
-						surnameTextField.setText(customerList.get(position).getSurname());
-						pPSTextField.setText(customerList.get(position).getPPS());
-						dOBTextField.setText(customerList.get(position).getDOB());
-						customerIDTextField.setText(customerList.get(position).getCustomerID());
-						passwordTextField.setText(customerList.get(position).getPassword());
+						Summary.navigate(customerList, position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);
 						}		
 					}		
 					     });
@@ -695,12 +648,7 @@ public class Menu extends JFrame{
 					
 						position = customerList.size() - 1;
 				
-						firstNameTextField.setText(customerList.get(position).getFirstName());
-						surnameTextField.setText(customerList.get(position).getSurname());
-						pPSTextField.setText(customerList.get(position).getPPS());
-						dOBTextField.setText(customerList.get(position).getDOB());
-						customerIDTextField.setText(customerList.get(position).getCustomerID());
-						passwordTextField.setText(customerList.get(position).getPassword());								
+						Summary.navigate(customerList, position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);								
 							}		
 					     });
 				
@@ -716,16 +664,15 @@ public class Menu extends JFrame{
 					}		
 			}
 		});
-		
+	//*******************************************************************************************************
+// Ends here for the summary
 		accountButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				f.dispose();
 				
 				if(customerList.isEmpty())
 				{
-					JOptionPane.showMessageDialog(f, "There are no customers yet!"  ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-					f.dispose();
-					admin();
+					emptyList();
 				}
 				else
 				{
@@ -800,9 +747,7 @@ public class Menu extends JFrame{
 				
 				if(customerList.isEmpty())
 				{
-					JOptionPane.showMessageDialog(null, "There are currently no customers to display. ");
-					dispose();
-					admin();
+					emptyList();
 				}
 				else
 				{
@@ -841,8 +786,7 @@ public class Menu extends JFrame{
 						    	}
 						    	else
 						    	{
-						    		customerList.remove(customer);
-						    		JOptionPane.showMessageDialog(f, "Customer Deleted " ,"Success.",  JOptionPane.INFORMATION_MESSAGE);
+						    		Customer.deleteCustomer(customerList,customer,f);
 						    	}
 						    }
 						    }}
@@ -1409,6 +1353,11 @@ public class Menu extends JFrame{
 				menuStart();				
 			}
 	     });	
+	}
+	public void emptyList(){
+		JOptionPane.showMessageDialog(f, "There are no customers yet!"  ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
+		f.dispose();
+		admin();
 	}
 	public static boolean isNumeric(String str)  // a method that tests if a string is numeric
 	{  
