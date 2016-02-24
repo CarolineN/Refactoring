@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Menu extends JFrame{
+public class Menu extends JFrame {
 	 static ArrayList<Customer> customerList = new ArrayList<Customer>();
      int position = 0;
 	 String password;
@@ -37,60 +37,12 @@ public class Menu extends JFrame{
 		Menu driver = new Menu();
 		driver.menuStart();
 	}
+	
 	public void menuStart()
 	{
-		   f = new JFrame("User Type");
-			f.setSize(400, 300);
-			f.setLocation(200, 200);
-			f.addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent we) { System.exit(0); }
-			});
+		MenuLayout menu = new MenuLayout();
+		menu.layout1();
 
-			JPanel userTypePanel = new JPanel();
-			final ButtonGroup userType = new ButtonGroup();
-			JRadioButton radioButton;
-			userTypePanel.add(radioButton = new JRadioButton("Existing Customer"));
-			radioButton.setActionCommand("Customer");
-			userType.add(radioButton);
-			
-			userTypePanel.add(radioButton = new JRadioButton("Administrator"));
-			radioButton.setActionCommand("Administrator");
-			userType.add(radioButton);
-			
-			userTypePanel.add(radioButton = new JRadioButton("New Customer"));
-			radioButton.setActionCommand("New Customer");
-			userType.add(radioButton);
-
-			JPanel continuePanel = new JPanel();
-			JButton continueButton = new JButton("Continue");
-			continuePanel.add(continueButton);
-
-			Container content = f.getContentPane();
-			content.setLayout(new GridLayout(2, 1));
-			content.add(userTypePanel);
-			content.add(continuePanel);
-			continueButton.addActionListener(new ActionListener(  ) {
-				public void actionPerformed(ActionEvent ae) {
-					String user = userType.getSelection().getActionCommand(  );
-					options(user);
-				}
-				public void options(String option){//New structure
-					
-					if(option.equals("New Customer"))
-					{
-						newCustomer();
-					}
-					if(option.equals("Administrator")	)
-					{
-						loginAdministrator();
-					}
-
-					if(option.equals("Customer")	)
-					{
-						existingCustomer();			    
-					}
-				}
-			});f.setVisible(true);	
 	}
 	public void admin()// What about this method?
 	{
@@ -833,7 +785,7 @@ public class Menu extends JFrame{
 		returnButton(returnButton);		
 	}
 	
-	public void customer(Customer e1)
+	public  void customer(Customer e1)
 	{	
 		f = new JFrame("Customer Menu");
 		
