@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class BankCharges {
+public class BankCharges  {
 	public static void bankChargesCalculation(CustomerAccount acc, JFrame f){
 		String euro = "\u20ac";
 	 	if(acc instanceof CustomerDepositAccount)

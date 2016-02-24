@@ -40,14 +40,18 @@ public class Menu extends JFrame {
 	
 	public void menuStart()
 	{
+		
 		MenuLayout menu = new MenuLayout();
 		menu.layout1();
 
+		
 	}
 	public void admin()// What about this method?
 	{
 		dispose();
 		adminMenu();
+		
+	
 		JPanel deleteCustomerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JButton deleteCustomer = new JButton("Delete Customer");	
 		deleteCustomer.setPreferredSize(new Dimension(250, 20));
@@ -106,7 +110,7 @@ public class Menu extends JFrame {
 		content.add(deleteCustomerPanel);
 		content.add(returnPanel);
 		
-		//*************************************************
+	//	*************************************************
 		bankChargesButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				boolean loop = true;
@@ -785,6 +789,7 @@ public class Menu extends JFrame {
 		returnButton(returnButton);		
 	}
 	
+	
 	public  void customer(Customer e1)
 	{	
 		f = new JFrame("Customer Menu");
@@ -1216,80 +1221,10 @@ public class Menu extends JFrame {
 			content.add(panel, BorderLayout.CENTER);
 			content.add(panel2, BorderLayout.SOUTH);
 			f1.setVisible(true);		
-		
 	}
-	public void existingCustomer(){
-		boolean loop = true, loop2 = true;
-		boolean cont = false;
-		boolean found = false;
-		
-	    while(loop)
-	    {
-	    Object customerID = JOptionPane.showInputDialog(f, "Enter Customer ID:");
-	    
-	    for (Customer aCustomer: customerList){
-	    	
-	    	if(aCustomer.getCustomerID().equals(customerID))//search customer list for matching customer ID
-	    	{
-	    		found = true;
-	    		customer = aCustomer;
-	    	}					    	
-	    }
-	    
-	    if(found == false)
-	    {
-	    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
-	    	if (reply == JOptionPane.YES_OPTION) {
-	    		loop = true;
-	    	}
-	    	else if(reply == JOptionPane.NO_OPTION)
-	    	{
-	    		f.dispose();
-	    		loop = false;
-	    		loop2 = false;
-	    		menuStart();
-	    	}
-	    }
-	    else
-	    {
-	    	loop = false;
-	    }
-	   
-	    }
-	    
-	    while(loop2)
-	    {
-	    	Object customerPassword = JOptionPane.showInputDialog(f, "Enter Customer Password;");
-	    	
-	    	   if(!customer.getPassword().equals(customerPassword))//check if custoemr password is correct
-			    {
-			    	int reply  = JOptionPane.showConfirmDialog(null, null, "Incorrect password. Try again?", JOptionPane.YES_NO_OPTION);
-			    	if (reply == JOptionPane.YES_OPTION) {
-			    		
-			    	}
-			    	else if(reply == JOptionPane.NO_OPTION){
-			    		//f.dispose();
-			    		loop2 = false;
-			    		menuStart();
-			    	}
-			    }
-	    	   else
-	    	   {
-	    		   loop2 =false;
-	    		   cont = true;
-	    	   }
-	    }
-	      if(cont)
-	    {
-		//f.dispose();
-	    	customer(customer);
-	    	loop = false;
-	    					    
-	   }	
-	}
-	public void adminMenu()
+public void adminMenu()
 	{
-		f.dispose();
+		//f.dispose();
     	f = new JFrame("Administrator Menu");
 		f.setSize(400, 300);
 		f.setLocation(200, 200);

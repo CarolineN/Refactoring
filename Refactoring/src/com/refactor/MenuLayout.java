@@ -17,6 +17,7 @@ import javax.swing.JRadioButton;
 
 public class MenuLayout extends Menu {
 	public void layout1(){
+		
 		f = new JFrame("User Type");
 		f.setSize(400, 300);
 		f.setLocation(200, 200);
@@ -65,7 +66,9 @@ public class MenuLayout extends Menu {
 
 				if(option.equals("Customer")	)
 				{
-					existingCustomer();			    
+					ExsistingCustomer eC = new ExsistingCustomer();
+					eC.existingCustomer();
+					//existingCustomer();			    
 				}
 			}
 		});f.setVisible(true);	
