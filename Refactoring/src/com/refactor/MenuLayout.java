@@ -1,6 +1,8 @@
 package com.refactor;
 
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,11 +13,14 @@ import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+
 public class MenuLayout extends Menu {
+	
 	public void layout1(){
 		
 		f = new JFrame("User Type");
@@ -57,11 +62,13 @@ public class MenuLayout extends Menu {
 				
 				if(option.equals("New Customer"))
 				{
-					newCustomer();
+					NewCustomer c = new NewCustomer();
+					c.newCustomer();
 				}
 				if(option.equals("Administrator")	)
 				{
-					loginAdministrator();
+					LoginAdministrator login = new LoginAdministrator();
+					login.loginAdministrator();
 				}
 
 				if(option.equals("Customer")	)
@@ -73,5 +80,7 @@ public class MenuLayout extends Menu {
 			}
 		});f.setVisible(true);	
 	}
+	
+	
 	
 }
